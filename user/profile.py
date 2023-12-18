@@ -7,7 +7,10 @@ from django.conf import settings
 
 class Profile(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
-	invite_code = models.CharField(max_length=6, default=None)
+	invite_code = models.CharField(max_length=6, default=None, verbose_name='invite code')
+	invited_by = models.ForeignKey(
+		to="self", on_delete=models.CASCADE, verbose_name='invited by', null=True, blank=True
+	)
 
 	class Meta:
 		verbose_name = 'profile'

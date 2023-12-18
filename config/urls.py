@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from user.views import register_page, check_otp, login_page, generate_otp, profile_page
+from user.views import register_page, check_otp, login_page, generate_otp, profile_page, enter_invite_code
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -9,4 +9,5 @@ urlpatterns = [
 	path('login/', login_page, name="login"),
 	path('otp/<int:pk>/<uuid>/', generate_otp),
 	path('<str:invite_code>/', profile_page, name="profile"),
+	path('<str:invite_code>/enter_invite_code/', enter_invite_code, name="enter_invite_code"),
 ]

@@ -59,10 +59,8 @@ def check_otp(request):
 			login(request, user, backend='user.backends.PasswordlessAuthBackend')
 			user_profile = Profile.objects.get(user=user)
 			return redirect(f"/{user_profile.invite_code}")
-		else:
-			messages.error(request, "Wrong OTP!")
-
-	print(f"otp via form: {otp}")
+	else:
+		messages.error(request, "Не верный OTP-код!")
 	return render(request, "otp.html")
 
 
@@ -73,3 +71,18 @@ def profile_page(request, invite_code):
 		"profile": profile
 	}
 	return render(request, template_name="profile.html", context=context)
+
+
+def enter_invite_code(request, invite_code):
+	code = request.POST.get("code")
+	try:
+		invented_by = Profile.objects.get(invite_code=code)
+		if code == invite_code:
+			messages.error(request, "Вы не можете ввести свой же код!")
+		else:
+			profile = Profile.objects.get(invite_code=invite_code)
+			profile.invited_by = invented_by
+			profile.save()
+	except Profile.DoesNotExist:
+		messages.error(request, "Код не существует!")
+	return redirect(f"/{invite_code}")

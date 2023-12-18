@@ -12,22 +12,49 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Пользователь</th>
+                        <th scope="col">Пользователь:</th>
                         <td>{{profile}}</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <th scope="col">Пользователь</th>
+                        <th scope="col">Менеджерство:</th>
                         <td>{{profile.user.is_staff}}</td>
                     </tr>
                     <tr>
-                        <th scope="col">Пользователь</th>
+                        <th scope="col">Телефон:</th>
                         <td>{{profile.user.phone}}</td>
                     </tr>
+                    {% if profile.invited_by %}
                     <tr>
-                        <th scope="col">Пользователь</th>
-                        <td>{{profile.user.invite_code}}</td>
+                        <th scope="col">Кем приглашен:</th>
+                        <td>{{profile.invited_by}}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <th scope="col">Кем приглашен:</th>
+                        <td>
+                            <form method="POST" action=" {% url 'enter_invite_code' profile.invite_code %} " style="text-align:center;">
+                                {% csrf_token %}
+                                <input type="text" name="code">
+                                <button type="submit" class="btn btn-success">
+                                    Ввести код
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th scope="col">Кого пригласил:</th>
+                        <td>
+                            {% if profile.profile_set.count > 0 %}
+                            {% for item in profile.profile_set.all %}
+                            <li> {{item.invite_code}} </li>
+                            {% endfor %}
+                            {% else %}
+                            Нет данных
+                            {% endif %}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
