@@ -1,5 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 
+from user.profile import Profile
+
 
 class UserManager(BaseUserManager):
 	use_in_migrations = True
@@ -29,4 +31,5 @@ class UserManager(BaseUserManager):
 			user = self.model(phone=phone, password=password, **other_fields)
 			user.set_unusable_password()
 			user.save()
+		Profile.objects.create(user=user)
 		return user

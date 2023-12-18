@@ -1,10 +1,8 @@
-import time
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, get_user_model
-from django.urls import reverse
 
 from .forms import RegisterForm, LoginForm
+from .profile import Profile
 from .services import OTP
 from django.contrib import messages
 import uuid
@@ -45,32 +43,33 @@ def login_page(request):
 
 
 def generate_otp(request, pk, uuid):
-	return render(request, template_name='otp.html')
+	context = {
+		"title": "OTP checking"
+	}
+	return render(request, template_name='otp.html', context=context)
 
 
 def check_otp(request):
 	otp = request.POST.get("secret")
 	phone = request.POST.get("phone")
-	context = {
-		"title": "OTP checking"
-	}
 	otp_status = OTP.check_otp(phone, otp)
 	if otp_status:
 		user = authenticate(request, phone=phone)
 		if user is not None:
 			login(request, user, backend='user.backends.PasswordlessAuthBackend')
-			return redirect(f"/{user.pk}")
+			user_profile = Profile.objects.get(user=user)
+			return redirect(f"/{user_profile.invite_code}")
 		else:
 			messages.error(request, "Wrong OTP!")
 
 	print(f"otp via form: {otp}")
-	return render(request, "otp.html", context=context)
+	return render(request, "otp.html")
 
 
-def profile(request, pk):
-	user = get_object_or_404(User, pk=pk)
+def profile_page(request, invite_code):
+	profile = get_object_or_404(Profile, invite_code=invite_code)
 	context = {
-		"title": f"Профиль: {user.phone}",
-		"user": user
+		"title": f"Профиль: {profile.user.phone}",
+		"profile": profile
 	}
 	return render(request, template_name="profile.html", context=context)

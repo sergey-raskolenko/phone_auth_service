@@ -1,6 +1,6 @@
 import random
 
-from user.forms import User
+from user.models import User
 
 
 class OTP:
