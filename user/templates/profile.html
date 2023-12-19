@@ -8,6 +8,7 @@
             <div class="card-header">
                 <h5>Профиль пользователя</h5>
             </div>
+            {% if user.phone == profile.user.phone %}
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -34,7 +35,8 @@
                     <tr>
                         <th scope="col">Кем приглашен:</th>
                         <td>
-                            <form method="POST" action=" {% url 'enter_invite_code' profile.invite_code %} " style="text-align:center;">
+                            <form method="POST" action=" {% url 'enter_invite_code' profile.invite_code %} "
+                                  style="text-align:center;">
                                 {% csrf_token %}
                                 <input type="text" name="code">
                                 <button type="submit" class="btn btn-success">
@@ -49,7 +51,7 @@
                         <td>
                             {% if profile.profile_set.count > 0 %}
                             {% for item in profile.profile_set.all %}
-                            <li> {{item.invite_code}} </li>
+                            <li> {{item.invite_code}}</li>
                             {% endfor %}
                             {% else %}
                             Нет данных
@@ -60,12 +62,17 @@
                 </table>
             </div>
             <div class="card-footer"></div>
+            {% else %}
+            <div class="card-body">
+                <b> Это не ваш профиль! </b>
+            </div>
+            {% endif %}
         </div>
+        {% else %}
+        <div class="card-body">
+            <p><b>Уже есть аккаунт? </b><a href="{% url 'login' %}">Войти</a>.</p>
+        </div>
+        {% endif %}
     </div>
-    {% else %}
-    <div class="card-body">
-        <p><b>Уже есть аккаунт? </b><a href="{% url 'login' %}">Войти</a>.</p>
-    </div>
-    {% endif %}
 </div>
 {% endblock %}

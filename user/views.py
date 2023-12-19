@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 
 from .forms import RegisterForm, LoginForm
 from .profile import Profile
@@ -86,3 +86,8 @@ def enter_invite_code(request, invite_code):
 	except Profile.DoesNotExist:
 		messages.error(request, "Код не существует!")
 	return redirect(f"/{invite_code}")
+
+
+def logout_view(request):
+	logout(request)
+	return redirect("login/")
