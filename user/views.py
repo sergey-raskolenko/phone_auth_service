@@ -76,12 +76,14 @@ def profile_page(request, invite_code):
 def enter_invite_code(request, invite_code):
 	code = request.POST.get("code")
 	try:
-		invented_by = Profile.objects.get(invite_code=code)
+		invited_by = Profile.objects.get(invite_code=code)
+		profile = Profile.objects.get(invite_code=invite_code)
 		if code == invite_code:
 			messages.error(request, "Вы не можете ввести свой же код!")
+		elif invited_by in profile.profile_set.all():
+			messages.error(request, "Вы не можете ввести код того, кого вы пригласили!")
 		else:
-			profile = Profile.objects.get(invite_code=invite_code)
-			profile.invited_by = invented_by
+			profile.invited_by = invited_by
 			profile.save()
 	except Profile.DoesNotExist:
 		messages.error(request, "Код не существует!")

@@ -7,7 +7,7 @@ urlpatterns = [
 	path('register/', register_page, name="register"),
 	path('check/', check_otp, name="check_otp"),
 	path('login/', login_page, name="login"),
-	path('/', logout_view, name="logout"),
+	path('', logout_view, name="logout"),
 	path('otp/<int:pk>/<uuid>/', generate_otp),
 	path('<str:invite_code>/', profile_page, name="profile"),
 	path('<str:invite_code>/enter_invite_code/', enter_invite_code, name="enter_invite_code"),

@@ -1,0 +1,114 @@
+[
+  {
+    "model": "user.profile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "invite_code": "jGwwH",
+      "invited_by": null
+    }
+  },
+  {
+    "model": "user.profile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "invite_code": "VcjwwB",
+      "invited_by": 1
+    }
+  },
+  {
+    "model": "user.profile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "invite_code": "jcjwwT",
+      "invited_by": 2
+    }
+  },
+  {
+    "model": "user.profile",
+    "pk": 5,
+    "fields": {
+      "user": 5,
+      "invite_code": "QFR4FR",
+      "invited_by": 2
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "password": "!SPQuVBdGOcFecDzujkq0YsPBxa9ESslf4ri6Y77B",
+      "last_login": "2023-12-19T14:38:26.563Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "date_joined": "2023-12-18T22:10:12.943Z",
+      "phone": "+71111111111",
+      "otp": "5897",
+      "is_staff": false,
+      "is_active": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "password": "!tXTlr43nwMny6clxre4xo1oA94jdR44VzYHkuhA8",
+      "last_login": "2023-12-19T14:41:04.241Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "date_joined": "2023-12-18T22:12:30.877Z",
+      "phone": "+71111111112",
+      "otp": "9682",
+      "is_staff": false,
+      "is_active": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "password": "!fGn6crQtEPxMlxZdmmAwywb7QPpszeMlRuCwTlhe",
+      "last_login": "2023-12-18T22:48:42.204Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "date_joined": "2023-12-18T22:13:33.034Z",
+      "phone": "+71111111113",
+      "otp": "8639",
+      "is_staff": false,
+      "is_active": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 5,
+    "fields": {
+      "password": "!8NyEfs9AODSuZ4lY9K16OJvo0quJSFPKRLLi5DLr",
+      "last_login": "2023-12-19T12:59:49.363Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "date_joined": "2023-12-19T12:59:31.406Z",
+      "phone": "+79992045103",
+      "otp": "7722",
+      "is_staff": false,
+      "is_active": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
