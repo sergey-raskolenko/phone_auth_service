@@ -136,3 +136,7 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# SMS-Aero service connection
+SMSAERO_API_KEY = os.getenv('SMSAERO_API_KEY')
+SMSAERO_EMAIL = os.getenv('SMSAERO_EMAIL')
