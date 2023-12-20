@@ -22,6 +22,7 @@ class OTP:
 		# Some code to send sms
 		# cls.send_sms(phone=phone, message=otp)
 		print(otp)
+		return otp
 
 	@staticmethod
 	def check_otp(phone, otp):

@@ -18,7 +18,7 @@ class RegisterForm(forms.Form):
 class LoginForm(forms.Form):
 	phone = forms.CharField(label="Телефон", widget=forms.TextInput(attrs={'placeholder': 'Введите номер'}))
 
-	def clean_email(self):
+	def clean_phone(self):
 		phone = self.cleaned_data.get('phone')
 		user = User.objects.filter(phone=phone)
 		if not user.exists():
