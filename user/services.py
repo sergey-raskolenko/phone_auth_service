@@ -1,6 +1,6 @@
 import random
 from smsaero import SmsAero
-from user.models import User
+from user.models.user import User
 from config.settings import SMSAERO_API_KEY, SMSAERO_EMAIL
 
 

@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth import authenticate, login, logout
 
 from .forms import RegisterForm, LoginForm
-from .profile import Profile
+from user.models.profile import Profile
+from user.models.user import User
 from .services import OTP
 from django.contrib import messages
 import uuid
-
-User = get_user_model()
 
 
 def register_page(request):
@@ -90,7 +89,10 @@ def enter_invite_code(request, invite_code):
 		invited_by = Profile.objects.get(invite_code=code)
 		profile = Profile.objects.get(invite_code=invite_code)
 
-		if profile.invite_code:
+		print(profile.invite_code)
+		print(type(profile.invite_code))
+
+		if profile.invited_by:
 			messages.error(request, "Вы не можете ввести новый код!")
 
 		elif code == invite_code:

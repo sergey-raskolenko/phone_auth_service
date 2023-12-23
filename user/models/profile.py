@@ -4,7 +4,7 @@ import string
 from django.db import models
 from django.conf import settings
 
-from user.models import NULLABLE
+from user.models.user import NULLABLE
 
 
 class Profile(models.Model):

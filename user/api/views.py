@@ -7,8 +7,8 @@ from rest_framework.response import Response
 
 from user.api.serializers import ProfileSerializer
 from user.forms import RegisterForm, LoginForm
-from user.models import User
-from user.profile import Profile
+from user.models.user import User
+from user.models.profile import Profile
 from user.services import OTP
 
 
@@ -90,7 +90,7 @@ class OTPAPIView(CreateAPIView):
 					'is_auth_user': request.user.is_authenticated,
 					'user': str(request.user),
 					'auth': str(request.auth),
-					'user_profile_url': f'/api/{user_profile.invite_code}/',
+					'user_profile_url': f'/api/profile/',
 					'last_login': request.user.last_login
 				}
 				return Response(content, status=status.HTTP_200_OK)
@@ -140,7 +140,7 @@ class ProfileAPIView(ListCreateAPIView):
 			try:
 				invited_by = Profile.objects.get(invite_code=invite_code)
 
-				if profile.invite_code:
+				if profile.invited_by:
 					content = {
 						'error': "Вы не можете ввести новый код!",
 					}
