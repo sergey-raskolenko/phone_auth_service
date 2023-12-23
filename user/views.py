@@ -16,10 +16,15 @@ def register_page(request):
 		"form": form,
 		"title": "Registration"
 	}
+
 	if form.is_valid():
 		phone = form.cleaned_data.get("phone")
-		User.objects.create_user(phone=phone, password=None)
+		new_user =User.objects.create_user(phone=phone, password=None)
+		new_profile = Profile.objects.create(user=new_user)
+		new_profile.set_invite_code()
+		new_profile.save()
 		return redirect("/login")
+
 	return render(request, template_name="register.html", context=context)
 
 
@@ -31,11 +36,13 @@ def login_page(request):
 	}
 	if form.is_valid():
 		phone = form.cleaned_data.get('phone')
+
 		try:
 			user = User.objects.get(phone=phone)
 			OTP.send_otp(phone)
 			temp = uuid.uuid4()
 			return redirect(f"/otp/{user.pk}/{temp}")
+
 		except Exception as e:
 			messages.error(request, "No such user exists!")
 
@@ -53,14 +60,18 @@ def check_otp(request):
 	otp = request.POST.get("secret")
 	phone = request.POST.get("phone")
 	otp_status = OTP.check_otp(phone, otp)
+
 	if otp_status:
 		user = authenticate(request, phone=phone)
+
 		if user is not None:
 			login(request, user, backend='user.backends.PasswordlessAuthBackend')
 			user_profile = Profile.objects.get(user=user)
 			return redirect(f"/{user_profile.invite_code}")
+
 	else:
 		messages.error(request, "Не верный OTP-код!")
+
 	return render(request, "otp.html")
 
 
@@ -78,15 +89,23 @@ def enter_invite_code(request, invite_code):
 	try:
 		invited_by = Profile.objects.get(invite_code=code)
 		profile = Profile.objects.get(invite_code=invite_code)
-		if code == invite_code:
+
+		if profile.invite_code:
+			messages.error(request, "Вы не можете ввести новый код!")
+
+		elif code == invite_code:
 			messages.error(request, "Вы не можете ввести свой же код!")
+
 		elif invited_by in profile.profile_set.all():
 			messages.error(request, "Вы не можете ввести код того, кого вы пригласили!")
+
 		else:
 			profile.invited_by = invited_by
 			profile.save()
+
 	except Profile.DoesNotExist:
 		messages.error(request, "Код не существует!")
+
 	return redirect(f"/{invite_code}")
 
 

@@ -22,7 +22,10 @@ class RegisterAPIView(CreateAPIView):
 
 			try:
 				validate_international_phonenumber(phone)
-				User.objects.create_user(phone=phone, password=None)
+				new_user = User.objects.create_user(phone=phone, password=None)
+				new_profile = Profile.objects.create(user=new_user)
+				new_profile.set_invite_code()
+				new_profile.save()
 				content = {
 					'phone': phone
 				}
@@ -137,7 +140,13 @@ class ProfileAPIView(ListCreateAPIView):
 			try:
 				invited_by = Profile.objects.get(invite_code=invite_code)
 
-				if profile.invite_code == invite_code:
+				if profile.invite_code:
+					content = {
+						'error': "Вы не можете ввести новый код!",
+					}
+					return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+				elif profile.invite_code == invite_code:
 					content = {
 						'error': "Вы не можете ввести свой же код!",
 					}
