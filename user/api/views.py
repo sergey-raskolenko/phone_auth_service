@@ -13,6 +13,7 @@ from user.services import OTP
 
 
 class RegisterAPIView(CreateAPIView):
+	"""Контроллер для регистрации пользователя"""
 
 	def post(self, request, *args, **kwargs):
 		form = RegisterForm(request.data)
@@ -44,6 +45,7 @@ class RegisterAPIView(CreateAPIView):
 
 
 class LoginAPIView(CreateAPIView):
+	"""Контроллер для авторизации и генерации ОТР пользователю"""
 
 	def post(self, request, *args, **kwargs):
 
@@ -75,6 +77,7 @@ class LoginAPIView(CreateAPIView):
 
 
 class OTPAPIView(CreateAPIView):
+	"""Контроллер для проверки введенного ОТР и входа в систему пользователя"""
 
 	def post(self, request, *args, **kwargs):
 		phone = request.data.get("phone")
@@ -109,6 +112,7 @@ class OTPAPIView(CreateAPIView):
 
 
 class LogoutAPIView(ListAPIView):
+	"""Контроллер для выхода из системы"""
 
 	def get(self, request, *args, **kwargs):
 		logout(request)
@@ -122,6 +126,9 @@ class LogoutAPIView(ListAPIView):
 
 
 class ProfileAPIView(ListCreateAPIView):
+	"""
+	Контроллер для вывода информации о профиле пользователя ("GET") и добавлением пользователю инвайт-кода("POST")
+	"""
 	def get(self, request, *args, **kwargs):
 		user_id = request.session.get('_auth_user_id')
 

@@ -7,6 +7,7 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class User(AbstractUser, PermissionsMixin):
+	"""Модель для описания пользователя"""
 	objects = UserManager()
 
 	username = None

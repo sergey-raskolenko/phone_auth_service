@@ -5,16 +5,22 @@ from config.settings import SMSAERO_API_KEY, SMSAERO_EMAIL
 
 
 class OTP:
+	"""Класс для работы с одноразовыми паролями"""
 	@staticmethod
 	def send_sms(phone, message) -> dict:
+		"""
+		Статический метод для отправки смс сервисом SmsAero
+		"""
 		api = SmsAero(SMSAERO_EMAIL, SMSAERO_API_KEY)
 		res = api.send(phone, message)
-		print(res)
 		assert res.get('success'), res.get('message')
 		return res.get('data')
 
 	@classmethod
-	def send_otp(cls, phone):
+	def send_otp(cls, phone) -> int:
+		"""
+		Класс-метод для отправки ОТР пользователю
+		"""
 		otp = str(random.randint(1000, 9999))
 		user = User.objects.get(phone=phone)
 		user.otp = otp
@@ -26,6 +32,9 @@ class OTP:
 
 	@staticmethod
 	def check_otp(phone, otp):
+		"""
+		Статический метод для проверки ОТР
+		"""
 		user = User.objects.get(phone=phone)
 		if user.otp == otp:
 			return True

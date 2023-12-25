@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 
 class PasswordlessAuthBackend(ModelBackend):
+	"""Прослойка позволяет авторизоваться без ввода пароля"""
 	def authenticate(self, request, phone):
 		User = get_user_model()
 		try:

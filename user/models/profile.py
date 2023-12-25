@@ -8,6 +8,7 @@ from user.models.user import NULLABLE
 
 
 class Profile(models.Model):
+	"""Модель для описания профиля пользователя"""
 	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
 	invite_code = models.CharField(max_length=6, verbose_name='invite code', **NULLABLE)
 	invited_by = models.ForeignKey(

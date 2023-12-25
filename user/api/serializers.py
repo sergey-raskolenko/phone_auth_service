@@ -4,6 +4,7 @@ from user.models.profile import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+	"""Сериализатор для объекта модели Profile"""
 	invited_followers = serializers.SerializerMethodField()
 	phone = serializers.SerializerMethodField()
 

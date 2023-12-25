@@ -10,6 +10,7 @@ import uuid
 
 
 def register_page(request):
+	"""Контроллер для регистрации пользователя"""
 	form = RegisterForm(request.POST or None)
 	context = {
 		"form": form,
@@ -28,6 +29,7 @@ def register_page(request):
 
 
 def login_page(request):
+	"""Контроллер для авторизации пользователя, с перенаправлением на подтверждение ОТР"""
 	form = LoginForm(request.POST or None)
 	context = {
 		"form": form,
@@ -49,6 +51,7 @@ def login_page(request):
 
 
 def generate_otp(request, pk, uuid):
+	"""Контроллер для ввода ОТР"""
 	context = {
 		"title": "OTP checking"
 	}
@@ -56,6 +59,7 @@ def generate_otp(request, pk, uuid):
 
 
 def check_otp(request):
+	"""Контроллер для проверки ОТР"""
 	otp = request.POST.get("secret")
 	phone = request.POST.get("phone")
 	otp_status = OTP.check_otp(phone, otp)
@@ -75,6 +79,7 @@ def check_otp(request):
 
 
 def profile_page(request, invite_code):
+	"""Контроллер для вывода профиля пользователя"""
 	profile = get_object_or_404(Profile, invite_code=invite_code)
 	context = {
 		"title": f"Профиль: {profile.user.phone}",
@@ -84,6 +89,7 @@ def profile_page(request, invite_code):
 
 
 def enter_invite_code(request, invite_code):
+	"""Контроллер для добавления пользователю инвайт-кода"""
 	code = request.POST.get("code")
 	try:
 		invited_by = Profile.objects.get(invite_code=code)
@@ -112,5 +118,6 @@ def enter_invite_code(request, invite_code):
 
 
 def logout_view(request):
+	"""Контроллер для выхода из системы"""
 	logout(request)
 	return redirect("login/")

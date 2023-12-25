@@ -5,6 +5,9 @@ class UserManager(BaseUserManager):
 	use_in_migrations = True
 
 	def create_superuser(self, phone, password, **other_fields):
+		"""
+		Метод для создания суперпользователя с переданными телефоном и паролем
+		"""
 		other_fields.setdefault('is_staff', True)
 		other_fields.setdefault('is_superuser', True)
 		other_fields.setdefault('is_active', True)
@@ -20,6 +23,7 @@ class UserManager(BaseUserManager):
 		return user
 
 	def create_user(self, phone, password=None, **other_fields):
+		"""Метод для создания суперпользователя"""
 		if not phone:
 			raise ValueError('Phone is required!')
 		if password is not None:
