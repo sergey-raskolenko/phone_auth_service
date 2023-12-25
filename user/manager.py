@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
 		user.save()
 		return user
 
-	def create_user(self, phone, password, **other_fields):
+	def create_user(self, phone, password=None, **other_fields):
 		if not phone:
 			raise ValueError('Phone is required!')
 		if password is not None:

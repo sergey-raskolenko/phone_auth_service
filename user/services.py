@@ -21,7 +21,7 @@ class OTP:
 		user.save()
 		# Some code to send sms
 		# cls.send_sms(phone=phone, message=otp)
-		print(otp)
+		print(f"OTP:{otp}")
 		return otp
 
 	@staticmethod

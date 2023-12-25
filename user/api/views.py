@@ -29,7 +29,7 @@ class RegisterAPIView(CreateAPIView):
 				content = {
 					'phone': phone
 				}
-				return Response(content, status=status.HTTP_200_OK)
+				return Response(content, status=status.HTTP_201_CREATED)
 
 			except Exception as e:
 				content = {
@@ -54,10 +54,11 @@ class LoginAPIView(CreateAPIView):
 
 			try:
 				user = User.objects.get(phone=phone)
-				otp = OTP.send_otp(phone)
+				user.otp = OTP.send_otp(phone)
+				user.save()
 				content = {
 					'phone': str(user.phone),
-					'otp': otp,
+					'otp': user.otp,
 					'link_for_auth': f"/api/otp/{user.pk}/"
 				}
 				return Response(content, status=status.HTTP_200_OK)
@@ -66,7 +67,7 @@ class LoginAPIView(CreateAPIView):
 				content = {
 					'error': f'User not found ({e})'
 				}
-				return Response(content, status=status.HTTP_404_NOT_FOUND)
+				return Response(content, status=status.HTTP_400_BAD_REQUEST)
 		content = {
 			'error': form.errors
 		}
@@ -80,12 +81,17 @@ class OTPAPIView(CreateAPIView):
 		otp = request.data.get("otp")
 		otp_status = OTP.check_otp(phone, otp)
 
-		if otp_status:
+		if not otp:
+			content = {
+				'error': "Введите OTP-код!"
+			}
+			return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+		elif otp_status:
 			user = authenticate(request, phone=phone)
 
 			if user is not None:
 				login(request, user, backend='user.backends.PasswordlessAuthBackend')
-				user_profile = Profile.objects.get(user=user)
 				content = {
 					'is_auth_user': request.user.is_authenticated,
 					'user': str(request.user),
