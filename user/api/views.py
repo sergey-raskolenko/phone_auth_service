@@ -99,7 +99,7 @@ class OTPAPIView(CreateAPIView):
 					'is_auth_user': request.user.is_authenticated,
 					'user': str(request.user),
 					'auth': str(request.auth),
-					'user_profile_url': f'/api/profile/',
+					'user_profile_url': '/api/profile/',
 					'last_login': request.user.last_login
 				}
 				return Response(content, status=status.HTTP_200_OK)

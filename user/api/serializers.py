@@ -11,6 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 	@staticmethod
 	def get_phone(instance):
 		return str(instance.user.phone)
+
 	@staticmethod
 	def get_invited_followers(instance):
 		return [str(profile) for profile in instance.profile_set.all()]

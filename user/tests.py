@@ -75,6 +75,11 @@ class UserOTPAuthTestCase(APITestCase):
 		response = self.client.post(reverse('api-otp-check', kwargs={'pk': self.user.pk}), data=self.data)
 		self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+	def test_user_profile(self):
+		"""Тест вывода профиля для неавторизованного пользователя"""
+		response = self.client.get(reverse('api-profile'))
+		self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class UserProfileLogoutTestCase(APITestCase):
 	"""Тест-кейс выхода из профиля"""

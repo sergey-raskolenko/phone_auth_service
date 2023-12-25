@@ -19,7 +19,7 @@ def register_page(request):
 
 	if form.is_valid():
 		phone = form.cleaned_data.get("phone")
-		new_user =User.objects.create_user(phone=phone, password=None)
+		new_user = User.objects.create_user(phone=phone, password=None)
 		new_profile = Profile.objects.create(user=new_user)
 		new_profile.set_invite_code()
 		new_profile.save()
@@ -44,7 +44,7 @@ def login_page(request):
 			temp = uuid.uuid4()
 			return redirect(f"/otp/{user.pk}/{temp}")
 
-		except Exception as e:
+		except Exception:
 			messages.error(request, "No such user exists!")
 
 	return render(request, template_name="login.html", context=context)
